@@ -11,7 +11,9 @@
                 <a href="?page=articles-details&article-id=<?= $article->id ?>">
                     <?= ucwords($article->title) ?>
                 </a>
-                - By <a href="#"><?= $article->authorName ?></a>
+                - By <a href="?page=author&author-id=<?= $article->authorId ?>">
+                    <?= $article->authorName ?>
+                </a>
                 (<?= $article->formatPublishDate() ?>)
             </li>
         <?php endforeach; ?>
