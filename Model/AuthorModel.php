@@ -22,12 +22,14 @@ class AuthorModel
         $this->databaseManager->connect();
     }
 
-    public function getArticleTitles($id)
+    public function getArticlesInfo($id)
     {
         $dbConn = $this->databaseManager->connection;
 
         $query =
-            'SELECT a.title
+            'SELECT
+                a.id,
+                a.title
             FROM articles a
             WHERE a.author_id = :id';
         $stmt = $dbConn->prepare($query);

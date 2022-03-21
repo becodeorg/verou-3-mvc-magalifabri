@@ -14,7 +14,7 @@ class AuthorController
     public function index()
     {
         $authorInfo = $this->authorModel->getAuthorInfo($_GET['author-id']);
-        $articleTitles = $this->authorModel->getArticleTitles($_GET['author-id']);
+        $articlesInfo = $this->authorModel->getArticlesInfo($_GET['author-id']);
 
         require 'View/author.php';
     }
