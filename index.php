@@ -14,7 +14,7 @@ require 'Controller/ArticleController.php';
 $page = $_GET['page'] ?? null;
 
 switch ($page) {
-    case 'articles-index':
+    case 'articles':
         (new ArticleController())->index();
         break;
 
