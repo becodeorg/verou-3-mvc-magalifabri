@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 class Article
 {
-    public string $id;
-    public string $authorId;
+    public $id;
+    public $authorId;
     public string $title;
     public ?string $description;
     public ?string $publishDate;
     public string $authorName;
 
     public function __construct(
-        string $id,
-        string $authorId,
+        $id,
+        $authorId,
         string $title,
         ?string $description,
         ?string $publishDate,
