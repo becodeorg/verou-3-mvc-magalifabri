@@ -8,17 +8,7 @@ class ArticleModel
 
     public function __construct()
     {
-        require 'config_localhost.php';
-
-        $this->databaseManager = new DatabaseManager(
-            $config['scheme'],
-            $config['host'],
-            $config['port'],
-            $config['user'],
-            $config['pass'],
-            $config['dbname']
-        );
-
+        $this->databaseManager = new DatabaseManager();
         $this->databaseManager->connect();
     }
 

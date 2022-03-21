@@ -11,14 +11,28 @@ class DatabaseManager
 
     public PDO $connection;
 
-    public function __construct(string $scheme, string $host, int $port, string $user, string $password, string $dbname)
+    public function __construct()
     {
-        $this->scheme = $scheme;
-        $this->host = $host;
-        $this->port = $port;
-        $this->user = $user;
-        $this->password = $password;
-        $this->dbname = $dbname;
+        // on heroku
+        if (!empty(getenv("DATABASE_URL"))) {
+            $dbParams = parse_url(getenv("DATABASE_URL"));
+
+            $this->scheme = 'pgsql';
+            $this->host = $dbParams['host'];
+            $this->port = $dbParams['port'];
+            $this->user = $dbParams['user'];
+            $this->password = $dbParams['pass'];
+            $this->dbname = ltrim($dbParams["path"], "/");
+        } else { // local
+            require 'config_localhost.php';
+
+            $this->scheme = $config['scheme'];
+            $this->host = $config['host'];
+            $this->port = $config['port'];
+            $this->user = $config['user'];
+            $this->password = $config['pass'];
+            $this->dbname = $config['dbname'];
+        }
     }
 
     public function connect(): void
