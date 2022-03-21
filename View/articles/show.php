@@ -1,15 +1,21 @@
-<?php require 'View/includes/header.php'?>
+<?php require 'View/includes/header.php' ?>
 
-<?php // Use any data loaded in the controller here ?>
+<?php // Use any data loaded in the controller here 
+?>
 
 <section>
     <h1><?= $article->title ?></h1>
     <p><?= $article->formatPublishDate() ?></p>
     <p><?= $article->description ?></p>
 
-    <?php // TODO: links to next and previous ?>
-    <a href="#">Previous article</a>
-    <a href="#">Next article</a>
+    <?php // TODO: links to next and previous 
+    ?>
+    <?php if ($previous) : ?>
+        <a href="?page=articles-details&article-id=<?= $previous ?>"">Previous article</a>
+    <?php endif ?>
+    <?php if ($next) : ?>
+        <a href=" ?page=articles-details&article-id=<?= $next ?>"">Next article</a>
+    <?php endif ?>
 </section>
 
-<?php require 'View/includes/footer.php'?>
+<?php require 'View/includes/footer.php' ?>
