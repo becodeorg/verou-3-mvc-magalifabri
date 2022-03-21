@@ -7,7 +7,13 @@
     <h1>Articles</h1>
     <ul>
         <?php foreach ($articles as $article) : ?>
-            <li><a href="?page=articles-details&article-id=<?= $article->id ?>"><?= ucwords($article->title) ?></a> (<?= $article->formatPublishDate() ?>)</li>
+            <li>
+                <a href="?page=articles-details&article-id=<?= $article->id ?>">
+                    <?= ucwords($article->title) ?>
+                </a>
+                - By <a href="#"><?= $article->authorName ?></a>
+                (<?= $article->formatPublishDate() ?>)
+            </li>
         <?php endforeach; ?>
     </ul>
 </section>
