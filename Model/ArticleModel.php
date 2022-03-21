@@ -4,33 +4,35 @@ declare(strict_types=1);
 
 class ArticleModel
 {
-    public function getArticles()
+    private DatabaseManager $databaseManager;
+
+    public function __construct()
     {
-        // prepare the database connection
-        // Note: you might want to use a re-usable databaseManager class - the choice is yours
-        $connection = new PDO(
-            "mysql:
-                host=localhost;
-                port=80;
-                dbname=verou",
-            'root',
-            'root'
+        require 'config_localhost.php';
+
+        $this->databaseManager = new DatabaseManager(
+            $config['scheme'],
+            $config['host'],
+            $config['port'],
+            $config['user'],
+            $config['pass'],
+            $config['dbname']
         );
 
-        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $this->databaseManager->connect();
+    }
 
-
-        // fetch all articles as $rawArticles (as a simple array)
-        $rawArticles = [];
+    public function getArticles()
+    {
+        $dbConn = $this->databaseManager->connection;
 
         $query = 'SELECT *
             FROM articles';
-        $stmt = $connection->prepare($query);
+        $stmt = $dbConn->prepare($query);
         $stmt->execute();
         $rawArticles = $stmt->fetchAll();
 
-
+        // convert returned rows to classes
         $articles = [];
         foreach ($rawArticles as $rawArticle) {
             $articles[] = new Article(
@@ -46,24 +48,13 @@ class ArticleModel
 
     public function getArticleDetails($id)
     {
-        // db connection
-        $connection = new PDO(
-            "mysql:
-                host=localhost;
-                port=80;
-                dbname=verou",
-            'root',
-            'root'
-        );
-
-        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $dbConn = $this->databaseManager->connection;
 
         // get article from db
         $query = 'SELECT *
             FROM articles
             WHERE id = :id';
-        $stmt = $connection->prepare($query);
+        $stmt = $dbConn->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $rawArticle = $stmt->fetch();
@@ -76,20 +67,8 @@ class ArticleModel
 
     public function getNextArticleId($id)
     {
-        // db connection
-        $connection = new PDO(
-            "mysql:
-                host=localhost;
-                port=80;
-                dbname=verou",
-            'root',
-            'root'
-        );
+        $dbConn = $this->databaseManager->connection;
 
-        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
-        // get next article's id from db
         $query = 'SELECT id
             FROM articles
             WHERE id = (
@@ -97,7 +76,7 @@ class ArticleModel
                 FROM articles
                 WHERE id > :id
             )';
-        $stmt = $connection->prepare($query);
+        $stmt = $dbConn->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $rawArticle = $stmt->fetch();
@@ -107,20 +86,8 @@ class ArticleModel
 
     public function getPreviousArticleId($id)
     {
-        // db connection
-        $connection = new PDO(
-            "mysql:
-                host=localhost;
-                port=80;
-                dbname=verou",
-            'root',
-            'root'
-        );
+        $dbConn = $this->databaseManager->connection;
 
-        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
-        // get next article's id from db
         $query = 'SELECT id
             FROM articles
             WHERE id = (
@@ -128,7 +95,7 @@ class ArticleModel
                 FROM articles
                 WHERE id < :id
             )';
-        $stmt = $connection->prepare($query);
+        $stmt = $dbConn->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $rawArticle = $stmt->fetch();

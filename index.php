@@ -7,6 +7,7 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 require 'classes/Article.php';
+require 'classes/DatabaseManager.php';
 
 require 'Model/ArticleModel.php';
 
