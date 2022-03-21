@@ -4,7 +4,7 @@
 ?>
 
 <section>
-    <h1><?= $article->title ?></h1>
+    <h1><?= ucwords($article->title) ?></h1>
     <p><?= $article->formatPublishDate() ?></p>
     <p><?= $article->description ?></p>
 
