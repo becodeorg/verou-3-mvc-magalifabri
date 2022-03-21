@@ -10,9 +10,11 @@ require 'classes/Article.php';
 require 'classes/DatabaseManager.php';
 
 require 'Model/ArticleModel.php';
+require 'Model/AuthorModel.php';
 
 require 'Controller/HomepageController.php';
 require 'Controller/ArticleController.php';
+require 'Controller/AuthorController.php';
 
 $page = $_GET['page'] ?? null;
 
@@ -23,6 +25,10 @@ switch ($page) {
 
     case 'articles-details':
         (new ArticleController())->show();
+        break;
+
+    case 'author':
+        (new AuthorController())->index();
         break;
 
     case 'home':
