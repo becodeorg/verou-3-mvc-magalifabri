@@ -5,8 +5,12 @@
 
     <p>Articles by this author:</p>
     <ul>
-        <?php foreach ($articleTitles as $title) : ?>
-            <li><?= ucwords($title['title']) ?></li>
+        <?php foreach ($articlesInfo as $article) : ?>
+            <li>
+                <a href="?page=articles-details&article-id=<?= $article['id'] ?>">
+                    <?= ucwords($article['title']) ?>
+                </a>
+            </li>
         <?php endforeach ?>
     </ul>
 </section>
