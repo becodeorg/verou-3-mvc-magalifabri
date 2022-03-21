@@ -5,4 +5,6 @@ Take the starter-pack provided with the exercise, complete the TODOs and follow 
 
 [- see full exercise description](https://github.com/becodeorg/gnt-verou-3/tree/main/3.The-Mountain/11.MVC)
 
+View result on [Heroku](http://mfabri.herokuapp.com/mvc/)
+
 Made by [Magali Fabri](https://github.com/magalifabri?tab=repositories)
