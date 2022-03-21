@@ -22,7 +22,6 @@ switch ($page) {
         break;
 
     case 'articles-details':
-        // TODO: detail page
         (new ArticleController())->show();
         break;
 

@@ -8,8 +8,6 @@
     <p><?= $article->formatPublishDate() ?></p>
     <p><?= $article->description ?></p>
 
-    <?php // TODO: links to next and previous 
-    ?>
     <?php if ($previous) : ?>
         <a href="?page=articles-details&article-id=<?= $previous ?>"">Previous article</a>
     <?php endif ?>
