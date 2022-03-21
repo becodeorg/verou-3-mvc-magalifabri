@@ -56,35 +56,40 @@ class ArticleController
 
     public function show()
     {
-        // TODO: this can be used for a detail page
+        // Load all required data
+        $article = $this->getArticleDetails($_GET['article-id']);
 
-        // $connection = new PDO(
-        //     "mysql:
-        //         host=localhost;
-        //         port=80;
-        //         dbname=verou",
-        //     'root',
-        //     'root'
-        // );
+        // Load the view
+        require 'View/articles/show.php';
+    }
 
-        // $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        // $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    private function getArticleDetails($id)
+    {
+        // db connection
+        $connection = new PDO(
+            "mysql:
+                host=localhost;
+                port=80;
+                dbname=verou",
+            'root',
+            'root'
+        );
 
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-        // $rawArticles = [];
+        // get article from db
+        $query = 'SELECT *
+            FROM articles
+            WHERE id = :id';
+        $stmt = $connection->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $rawArticle = $stmt->fetch();
 
-        // $query = 'SELECT *
-        //     FROM articles';
-        // $stmt = $connection->prepare($query);
-        // $stmt->execute();
-        // $rawArticles = $stmt->fetchAll();
+        // convert returned row to class
+        $article = new Article($rawArticle['id'], $rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
 
-
-        // $articles = [];
-        // foreach ($rawArticles as $rawArticle) {
-        //     $articles[] = new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
-        // }
-
-        // return $articles;
+        return $article;
     }
 }
