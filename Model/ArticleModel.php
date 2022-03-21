@@ -26,8 +26,17 @@ class ArticleModel
     {
         $dbConn = $this->databaseManager->connection;
 
-        $query = 'SELECT *
-            FROM articles';
+        $query =
+            'SELECT
+                ar.id,
+                ar.author_id,
+                ar.title,
+                ar.description,
+                ar.publish_date,
+                au.name
+            FROM articles ar
+            LEFT JOIN author au
+                ON au.id = ar.author_id';
         $stmt = $dbConn->prepare($query);
         $stmt->execute();
         $rawArticles = $stmt->fetchAll();
@@ -37,9 +46,11 @@ class ArticleModel
         foreach ($rawArticles as $rawArticle) {
             $articles[] = new Article(
                 $rawArticle['id'],
+                $rawArticle['author_id'],
                 $rawArticle['title'],
                 $rawArticle['description'],
-                $rawArticle['publish_date']
+                $rawArticle['publish_date'],
+                $rawArticle['name']
             );
         }
 
@@ -51,16 +62,32 @@ class ArticleModel
         $dbConn = $this->databaseManager->connection;
 
         // get article from db
-        $query = 'SELECT *
-            FROM articles
-            WHERE id = :id';
+        $query =
+            'SELECT
+                ar.id,
+                ar.author_id,
+                ar.title,
+                ar.description,
+                ar.publish_date,
+                au.name
+            FROM articles ar
+            LEFT JOIN author au
+                ON au.id = ar.author_id
+            WHERE ar.id = :id';
         $stmt = $dbConn->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $rawArticle = $stmt->fetch();
 
         // convert returned row to class
-        $article = new Article($rawArticle['id'], $rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
+        $article = new Article(
+            $rawArticle['id'],
+            $rawArticle['author_id'],
+            $rawArticle['title'],
+            $rawArticle['description'],
+            $rawArticle['publish_date'],
+            $rawArticle['name']
+        );
 
         return $article;
     }

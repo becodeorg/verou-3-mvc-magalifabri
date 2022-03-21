@@ -5,20 +5,26 @@ declare(strict_types=1);
 class Article
 {
     public string $id;
+    public string $authorId;
     public string $title;
     public ?string $description;
     public ?string $publishDate;
+    public string $authorName;
 
     public function __construct(
         string $id,
+        string $authorId,
         string $title,
         ?string $description,
-        ?string $publishDate
+        ?string $publishDate,
+        string $authorName
     ) {
         $this->id = $id;
+        $this->authorId = $authorId;
         $this->title = $title;
         $this->description = $description;
         $this->publishDate = $publishDate;
+        $this->authorName = $authorName;
     }
 
     public function formatPublishDate($format = 'd-m-Y')
