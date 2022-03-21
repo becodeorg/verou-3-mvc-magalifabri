@@ -7,7 +7,11 @@
     <h1><?= ucwords($article->title) ?></h1>
     <p><?= $article->formatPublishDate() ?></p>
     <p><?= $article->description ?></p>
-    <p>Written by <?= $article->authorName ?></p>
+    <p>Written by
+        <a href="?page=author&author-id=<?= $article->authorId ?>">
+            <?= $article->authorName ?>
+        </a>
+    </p>
 
     <?php if ($previous) : ?>
         <a href="?page=articles-details&article-id=<?= $previous ?>"">Previous article</a>
