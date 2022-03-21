@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 class ArticleController
 {
@@ -18,8 +18,28 @@ class ArticleController
     {
         // TODO: prepare the database connection
         // Note: you might want to use a re-usable databaseManager class - the choice is yours
+        $connection = new PDO(
+            "mysql:
+                host=localhost;
+                port=80;
+                dbname=verou",
+            'root',
+            'root'
+        );
+
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+
         // TODO: fetch all articles as $rawArticles (as a simple array)
         $rawArticles = [];
+
+        $query = 'SELECT *
+            FROM articles';
+        $stmt = $connection->prepare($query);
+        $stmt->execute();
+        $rawArticles = $stmt->fetchAll();
+
 
         $articles = [];
         foreach ($rawArticles as $rawArticle) {
