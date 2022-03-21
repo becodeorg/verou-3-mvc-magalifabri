@@ -58,6 +58,8 @@ class ArticleController
     {
         // Load all required data
         $article = $this->getArticleDetails($_GET['article-id']);
+        $next = $this->getNextArticleId($_GET['article-id']);
+        $previous = $this->getPreviousArticleId($_GET['article-id']);
 
         // Load the view
         require 'View/articles/show.php';
@@ -91,5 +93,67 @@ class ArticleController
         $article = new Article($rawArticle['id'], $rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
 
         return $article;
+    }
+
+    private function getNextArticleId($id)
+    {
+        // db connection
+        $connection = new PDO(
+            "mysql:
+                host=localhost;
+                port=80;
+                dbname=verou",
+            'root',
+            'root'
+        );
+
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+        // get next article's id from db
+        $query = 'SELECT id
+            FROM articles
+            WHERE id = (
+                SELECT min(id)
+                FROM articles
+                WHERE id > :id
+            )';
+        $stmt = $connection->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $rawArticle = $stmt->fetch();
+
+        return $rawArticle['id'] ?? 0;
+    }
+
+    private function getPreviousArticleId($id)
+    {
+        // db connection
+        $connection = new PDO(
+            "mysql:
+                host=localhost;
+                port=80;
+                dbname=verou",
+            'root',
+            'root'
+        );
+
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+        // get next article's id from db
+        $query = 'SELECT id
+            FROM articles
+            WHERE id = (
+                SELECT max(id)
+                FROM articles
+                WHERE id < :id
+            )';
+        $stmt = $connection->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $rawArticle = $stmt->fetch();
+
+        return $rawArticle['id'] ?? 0;
     }
 }
