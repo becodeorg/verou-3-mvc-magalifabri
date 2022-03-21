@@ -43,7 +43,12 @@ class ArticleController
 
         $articles = [];
         foreach ($rawArticles as $rawArticle) {
-            $articles[] = new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
+            $articles[] = new Article(
+                $rawArticle['id'],
+                $rawArticle['title'],
+                $rawArticle['description'],
+                $rawArticle['publish_date']
+            );
         }
 
         return $articles;
@@ -52,5 +57,34 @@ class ArticleController
     public function show()
     {
         // TODO: this can be used for a detail page
+
+        // $connection = new PDO(
+        //     "mysql:
+        //         host=localhost;
+        //         port=80;
+        //         dbname=verou",
+        //     'root',
+        //     'root'
+        // );
+
+        // $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+
+        // $rawArticles = [];
+
+        // $query = 'SELECT *
+        //     FROM articles';
+        // $stmt = $connection->prepare($query);
+        // $stmt->execute();
+        // $rawArticles = $stmt->fetchAll();
+
+
+        // $articles = [];
+        // foreach ($rawArticles as $rawArticle) {
+        //     $articles[] = new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
+        // }
+
+        // return $articles;
     }
 }
