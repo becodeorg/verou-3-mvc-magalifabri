@@ -35,7 +35,7 @@ class ArticleModel
                 ar.publish_date,
                 au.name
             FROM articles ar
-            LEFT JOIN author au
+            LEFT JOIN authors au
                 ON au.id = ar.author_id';
         $stmt = $dbConn->prepare($query);
         $stmt->execute();
@@ -71,7 +71,7 @@ class ArticleModel
                 ar.publish_date,
                 au.name
             FROM articles ar
-            LEFT JOIN author au
+            LEFT JOIN authors au
                 ON au.id = ar.author_id
             WHERE ar.id = :id';
         $stmt = $dbConn->prepare($query);
